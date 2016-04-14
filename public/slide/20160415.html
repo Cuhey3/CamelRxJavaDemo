@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Apache Camel勉強会</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Hakim El Hattab">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName('head')[0].appendChild(link);
+        </script>
+        <style type="text/css">
+            .reveal h1,
+            .reveal h2,
+            .reveal h3,
+            .reveal h4,
+            .reveal h5,
+            .reveal h6 {
+                text-transform: none;
+            }
+        </style>
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h2>Apache Camel と RxJava による<br>データフロー実装</h2>
+                    <p>
+                        by しうへい / <a href="http://twitter.com/cuhey3">@cuhey3</a>
+                    </p>
+                </section>
+                <section>
+                    <h2>自己紹介</h2>
+                    <ul>
+                        <li>職業：Webエンジニア（2016/2〜）</li>
+                        <li>以前は事務の会社で業務支援をしてました</li>
+                        <li>深刻な声優オタク（お仲間募集中）</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Apache Camel歴とか</h2>
+                    <ul>
+                        <li>4年弱 / きっかけは萌え擬人化で声優さんがついた事</li>
+                        <li>半年に一度のOSCで、daikuroさんに教えを請いながら現在に至る</li>
+                        <li>SPAのバックエンド+色々コンポーネント的な使い方</li>
+                        <li>趣味のスクレイピングでも常用</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Apache Camelの良い所</h2>
+                    <ul>
+                        <li>コンポーネント、コンバーターが豊富<br>
+                            ⇒ オープンソースプロダクトとの出会いも提供してくれる。
+                        </li>
+                        <li class="fragment">インテグレーションプラットフォームとして、安心感がある<br>
+                            ⇒ 「これとこれの組み合わせはダメ」とかが原理的に存在しない。
+                        </li>
+                        <li class="fragment">コアが軽量で、Javaのシステムに組み込みやすい<br>
+                            ⇒ コンポーネントと環境の間の干渉にだけ気をつけていればよい。
+                        </li>
+                        <li class="fragment">Fluent Builderによるルート定義の、ワンライナー感が気持ちいい<br>⇒ 見通しが良く、再利用が容易。</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Apache Camelの微妙な所</h2>
+                    <ul>
+                        <li><strike>そんなのある？</strike></li>
+                        <li class="fragment">
+                            学習コストが高い（…というか用語が何を言ってるのかわからない）<br>
+                            ⇒ daikuroさんの記事を元に動かしてみて、<br>実際動いたらそれでOK、という風に一旦考えましょう。
+                        </li>
+                        <li class="fragment">
+                            「Apache Camelじゃないとできないこと」って何？<br>
+                            ⇒ クリティカルな要素はないかもしれない。でも便利。
+                        </li>
+                        <li class="fragment">
+                            Enterprise Integration Patterns実装なので、EIPに定義されていない機能は期待できない
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>それでもやっぱり…<br>豊富なコンポーネントは魅力！</h2>
+                    <p>ぜひ使ってみてほしいフレームワークです。</p>
+                </section>
+                <section>
+                    <h2>鉄板だと思うコンポーネント</h2>
+                    <ul>
+                        <li>camel-jetty</li>
+                        <li>camel-websocket</li>
+                        <li>camel-jackson (JSON)</li>
+                        <li>camel-spring-boot</li>
+                        <li>camel-rx (RxJava)</li>
+                    </ul>
+                    <p>…とは言うものの、ユーザーによって<br>使い込んでるコンポーネントは全く違うと思います。</p>
+                    <p>オフィス用途ではfile2コンポーネントが大活躍でした。</p>
+                </section>
+                <section>
+                    <h2>ここから本題</h2>
+                </section>
+                <section>
+                    <h2>皆さんは<br>スクレイピングとかしますか？</h2>
+                </section>
+                <section>
+                    <h2>しますか？<br>しますよね？</h2>
+                </section>
+                <section>
+                    <h2>よろしい、ならば</h2>
+                </section>
+                <section>
+                    <h2>＿人人人人人人人人人人＿<br>＞ Apache Camel + RxJava ＜<br>
+                        ￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y￣
+                    </h2>
+                </section>
+                <section>
+                    事例<br>
+                    <img width="640" height="400" data-src="source-graph.png" alt="Down arrow">
+                    <ul style='font-size: 90%;'>
+                        <li>ソースA〜Eを起点として、二次ソースF・G、さらにソースHを生成したい</li>
+                        <li>A〜Eが更新されたら他も自動的に再計算してほしい（データフロー）</li>
+                        <li>依存関係はなるべく自由に設定できるようにしたい（循環参照だけ不可）</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>それ、Reactive Extensionsでできます。</h2>
+                    <p>Javaの場合は、RxJava</p>
+                </section>
+                <section>
+                    <h2>combineLatestメソッド</h2>
+                    各ソースの更新があった場合に、<br>その時点の最新の各ソースを使って再計算する
+                    <img width="798" height="330" data-src="combineLatest.gif" alt="Down arrow"><br>
+                    <a href='http://www.atmarkit.co.jp/fdotnet/introrx/introrx_02/introrx_02_03.html'>イベント・プログラミングとRx - @IT</a>より引用
+                    <p>※この図ではソースは2種類だけど、10種類とかでもいける</p>
+                </section>
+                <section>
+                    <h2>RxJava と Apache Camel を<br>組み合わせて使う</h2>
+                </section>
+                <section>
+                    <h2>Why Apache Camel?</h2>
+                    <ul>
+                        <li>
+                        <strike>好きだから。</strike>
+                        </li>
+                        <li>豊富なコンポーネント・コンバーターと組み合わせたいから</li>
+                        <li>EIPの文法も便利だし、組み合わせて使いたいから</li>
+                        <li>Observableの生成部分が見通しよく書けるから</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Why not only Apache Camel?</h2>
+                    <br>
+                    <p>Apache Camelでは、Consumerエンドポイントと<br>Producerエンドポイントを一対一、セットで書いていくのが基本。<br><br>このためソースの依存関係が増大するにつれて、<br>ルート定義では依存関係を書ききるのがつらくなってくる。<br><br>RxJavaを使ってObservableに変換してしまえば、<br>自由なPublish/Subscribeが可能になるので、この問題を克服できる。</p>
+                </section>
+                <section>
+                    <p>Apache Camel では、<br>任意のdirectエンドポイントからObservableを生成できます。</p>
+                    <pre><code class="hljs" data-trim contenteditable>
+
+// ルート定義
+@Override
+public void configure(){
+    from("timer:hello?period=1s")
+        .setBody("hello.")
+        .to("direct:hello_observable");
+}
+
+// どっかのコード
+ReactiveCamel rc = new ReactiveCamel(camelContext);
+Observable&lt;String&gt; helloObservable = rc.toObservable("direct:hello_observable",String.class);
+
+// あとは煮るなり焼くなり
+Observable&lt;String&gt; greetingObservable;
+greetingObservable = Observable.combineLatest(helloObservable,goodByeObservable,
+                                                            (str1, str2)->str1+str2);
+					</code></pre>
+                    <p>＞＞ どっかのコード ＜＜</p>
+                </section>
+                <section>
+                    <h2>Observable生成コードはどこに書く？</h2>
+                </section>
+                <section>
+                    <p>ちょっとだけ検討を重ねた結果、<br>RouteBuilderクラスのコンストラクタに書くのが良いと思いました。</p>
+                    <p>サンプルコードをご覧ください。</p>
+                </section>
+                <section>
+                    <h2>サンプルコード</h2>
+                    <a href="https://github.com/Cuhey3/CamelRxJavaDemo">https://github.com/Cuhey3/CamelRxJavaDemo</a>
+                </section>
+                <section>
+                    <p>ObservableRoute抽象クラス</p>
+                    <img width="800" height="503" data-src="observableRoute.png" alt="Down arrow">
+                </section>
+                <section>
+                    <p>ObservableSourceクラス</p>
+                    <img width="885" height="537" data-src="observableSource.png" alt="Down arrow">
+                </section>
+                <section>
+                    <p>実際に二次ソースを実装しているところ</p>
+                    <img data-src="sourceG.png" alt="Down arrow">
+                </section>
+                <section>
+                    <h2>実装の流れ</h2>
+                    <ul>
+                        <li>コンストラクタ内で、参照するソースをcombineLatestして<br>起点となるObservableを生成する。</li>
+                        <li>ルート定義へsend</li>
+                        <li>ルート定義内の処理を完了し、再度RxJava側へsend</li>
+                        <li>受け取ったObservableを、自分自身をあらわすObservableとして、<br>メンバ変数へバインド</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>実装の流れ（一次ソースの場合）</h2>
+                    <ul>
+                        <li>コンストラクタ内での、起点となるObservableの生成は不要</li>
+                        <li>ルート定義内のtimer(あるいはquartz2)処理を起点とする</li>
+                        <li>ルート定義処理が終わったら、RxJava側へsend</li>
+                        <li>受け取ったObservableを、自分自身をあらわすObservableとして、<br>メンバ変数へバインド</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>実装上の注意点</h2>
+                    <ul>
+                        <li>Observableと散々言ってきたけど、そのままではPub/Subで失敗します。</li>
+                        <li>Observable#publish() でConnectableObservableに変換してからの<br>ConnectableObservable#connect()でPub/Subが可能になる</li>
+                        <li>サンプルコードにも入ってますので、そちらを参照ください。</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>まとめ</h2>
+                    <p>Apache Camel と RxJava を組み合わせると、<br>自由度の高いデータフローが簡潔に実装できます！</p>
+                </section>
+                <section>
+                    <h2>ご清聴ありがとうございました</h2>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                width: 1100,
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    {src: 'lib/js/classList.js', condition: function () {
+                            return !document.body.classList;
+                        }},
+                    {src: 'plugin/markdown/marked.js', condition: function () {
+                            return !!document.querySelector('[data-markdown]');
+                        }},
+                    {src: 'plugin/markdown/markdown.js', condition: function () {
+                            return !!document.querySelector('[data-markdown]');
+                        }},
+                    {src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                            hljs.initHighlightingOnLoad();
+                        }},
+                    {src: 'plugin/zoom-js/zoom.js', async: true},
+                    {src: 'plugin/notes/notes.js', async: true}
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>

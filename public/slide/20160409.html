@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>アニメコンテンツのハック</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h2>アニメコンテンツのハック：<br>その分類とAPIハックの展望</h2>
+          <p>
+            <small>Created by <a href="https://forkwell.com/u/cuhey3">しうへい</a> / <a href="http://twitter.com/cuhey3">@cuhey3</a></small>
+          </p>
+        </section>
+
+        <section>
+          <h2>LTの概要</h2>
+          <p class="fragment">
+            「アニメ好き・テクノロジー好きのオタクが、アニメ<br>　コンテンツのハックについて本気出して考えてみた」
+          </p>
+          <p class="fragment">
+            それ以上でもそれ以下でもありません
+            <br>それでも何かの参考になれば幸いです
+          </p>
+        </section>
+
+        <section>
+          <h2>プロフィール</h2>
+          <ul><li>
+              宮崎県生まれ宮崎県育ち
+            </li>
+            <li>
+              アニメ見たさに上京・進学
+            </li>
+            <li class="fragment">
+              と同時に常時接続の虜となる(お察しください)
+            </li>
+            <li class="fragment">
+              紆余曲折を経て、現在はWebエンジニアとして勤務
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>テクノロジーの引き出し</h2>
+          <p class="fragment">
+            メイン: HTML5 / Java を使用した、<br>クライアント・サーバー型アプリケーション
+          </p>
+          <p class="fragment">
+            サブ: IoT / VR / ドローン
+          </p>
+        </section>
+        <!-- Example of nested vertical slides -->
+        <section>
+          <h2>過去に趣味で作ったもの</h2>
+        </section>
+        <section>
+          <h2>共演検索マシーン </h2><p>(2011〜2015年ごろ運用)</p>
+          <ul>
+            <li>Wikipediaの記事を参照して、声優二人の共演作品を調べて表示してくれるサービス</li>
+            <li>検索エンジンからの流入で、1000UU/day程度に利用されていたが、技術的な問題から現在は閉鎖</li>
+            <li>ソースコード: https://github.com/Cuhey3/KyouenOriginal</li>
+          </ul>
+        </section>
+        <section>
+          <h2>声優名でグッズ検索</h2>
+          <ul>
+            <li>声優の名前を入力すると、その声優に関連したグッズが表示されるサービス</li>
+            <li>データソースとしてはアニメグッズ小売のあみあみさん、Wikipedia、およびGoogle検索結果</li>
+            <li>主に技術デモ（勝手サイト）として公開</li>
+            <li><a href="http://seiyugoods.herokuapp.com/">http://seiyugoods.herokuapp.com/</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>青田買いTOP100</h2>
+          <ul>
+            <li>女性声優の青田買いをしてみるページ</li>
+            <li>Wikipediaに記事があり、イベントに出演予定がある中で、<br>作品出演数の少ない女性声優TOP100を表示</li>
+            <li>こちらも技術デモとして公開</li>
+            <li><a href="http://kyokuhoku.herokuapp.com/aotagai/">http://kyokuhoku.herokuapp.com/aotagai/</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Wikipedia声優速報bot<br>(on twitter)</h2>
+          <ul>
+            <li>声優の記事、および声優が出演してそうな作品の記事（アニメ・漫画・ゲーム）を監視</li>
+            <li>声優の記事に作品の記事名が追加されたら、あるいはその逆があったら、ツイートをする</li>
+            <li>アカウント凍結対策をさぼって放置中<br>（放置してても別に何も言われないし…）</li>
+            <li>ツイートの機能を切っているだけで、バックグラウンドでは監視を続けている（デモあります）</li>
+            <li>http://twitter.com/seiyulab</li>
+          </ul>
+        </section>
+        <section>
+          <h2>…声優とWikipedia<br>ばっかり！</h2>
+          <ul>
+            <li>最近では、VR空間に女性声優のブログ画像・フィギュア画像を浮かべて閲覧するアプリケーションとかを作っています</li>
+            <li class="fragment">声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さん声優さ</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>アニメコンテンツを<br>ハックしよう！</h2>
+        </section>
+
+        <section>
+          <h2>ハックとは？</h2><p>（ぼくの考える定義）</p>
+          <ul>
+            <li>
+              コンテンツの価値を拡張するもの
+            </li>
+            <li>
+              コンテンツ自体や、その周辺に含まれる情報を<br>抽出・加工して二次利用するもの
+            </li>
+            <li>
+              あるいは異なるコンテンツと、かけ合わせるもの
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>ハックを4つに分類</h2>
+          <ul>
+            <li>
+              内部ハック
+            </li>
+            <li>
+              外部ハック
+            </li>
+            <li>
+              参加型ハック
+            </li>
+            <li>
+              API・素材提供型ハック
+            </li>
+          </ul>
+          <p class="fragment">順に説明します</p>
+        </section>
+
+        <section>
+          <h2>内部ハック</h2>
+          <p>
+            コンテンツホルダー、およびその契約関係の中で<br>完結するハック
+          </p>
+          <ul>
+            <li>
+              例： メディアミックス、グッズ製作、<br>コラボ（唯一ハックっぽいもの）など
+            </li>
+            <li>
+              コンテンツの横展開に過ぎないため、<br>厳密にはハックとは呼べない
+            </li>
+            <li class="fragment">流行りに乗って、おそ松さんグッズ製作に<br>ありとあらゆる業者が乗り入れてる様は、ちょっとハック感ある</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>外部ハック</h2>
+          <p>
+            オーディエンスが主体となり、思うさまに行うハック
+          </p>
+          <ul>
+            <li>
+              例： 二次創作（同人活動）、二次利用（MADなど）、<br>スクレイピング全般</li>
+            <li>
+              味方につけるか対立するか、コンテンツホルダーの手腕も問われる
+            </li>
+            <li class="fragment">この他、ビッグデータやランキングは、オーディエンスを外部ハックしていると言える
+            </li>
+            <li class="fragment">基本的に許諾を取らずにやるため、パブリックなサービスをやろうとすると問題がつきまとう</li>
+            <li class="fragment">今回の分類では、外部ハックの結果をAPIとして提供する場合も、<br>外部ハックとして扱います</li>
+
+          </ul>
+        </section>
+        <section>
+          <h2>参加型ハック</h2>
+          <p>
+            コンテンツとオーディエンスの相互作用を起こし、<br>それをコンテンツの価値へ転用しようとするハック
+          </p>
+          <ul>
+            <li>
+              例: ラジオ、ニコ生、イベント、イラスト系コンテスト、<br>ゆるい公式Twitterなど
+            </li>
+            <li>アニメコンテンツの価値を拡張するために、<br>現在広く行われている</li>
+            <li class="fragment">
+              その場にオーディエンスがいないと成立しない点が重要
+            </li>
+            <li class="fragment">余談ですが、声優という職業には、<br>これらの主体としての振る舞いが求められる時代になっています</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>API・素材提供型ハック</h2>
+          <p>
+            コンテンツホルダーが正当な権利に基づき<br>APIや素材を提供し、それをオーディエンスが使用する
+          </p>
+          <ul>
+            <li>
+              一番身近な例は、Twitterアイコンの配布
+            </li>
+            <li>MMDモデルの配布などは、より小規模なコンテンツ<br>（地方萌えキャラなど）でやっていたりする</li>
+            <li>コンテンツホルダーが「二次利用のガイドライン」を定める場合も<br>このカテゴリに分類してよさそう</li>
+            <li class="fragment">アニメじゃないけど初音ミクさんとかいう大御所がいる</li>
+            <li class="fragment">
+              その一方で、API型ハックに関しては、<br>2016年現在はその姿を確認するのが難しい
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>API型ハックについてもっと考えてみる</h2>
+        </section>
+
+        <section>
+          <h2>アニメコンテンツにおいて<br>APIが提供できそうな対象</h2>
+          <ul><li>情報系</li>
+            <li>素材系</li>
+            <li class="fragment">未知の、もっと抽象的な何か<br>（アニメキャラを模した人工知能とか：適当）</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>情報系API</h2>
+          <ul><li>放送情報</li>
+            <li>商品情報</li>
+            <li>イベント情報</li>
+            <li>クレジット</li>
+          </ul>
+          <p class="fragment">あったら便利なものばかり。<br>今は個別に公式サイトやTwitterでやっている</p>
+        </section>
+
+        <section>
+          <h2>素材系API</h2>
+          <ul><li>映像</li>
+            <li>音声</li>
+            <li>台本</li>
+          </ul>
+          <p class="fragment">プロの作品であれば無償提供は厳しい。いくらで売るか。<br>今後、段階的に解禁してくるコンテンツはありそう</p>
+        </section>
+
+        <section>
+          <h2>アニメコンテンツの、<br>来るべきAPIハック時代にそなえよう</h2>
+        </section>
+
+        <section>
+          <h2>そなえる手段は大きく二つ</h2>
+          <ul>
+            <li>コンテンツホルダーに食い込み、API提供を加速させる</li>
+            <li>APIとかけ合わせられる手段を、なるべく増やしておく</li>
+          </ul>
+        </section>
+        <section>
+          <h2>アニメの外に目を向けると、<br>世の中はAPIであふれている</h2>
+          <ul>
+            <li>ソフトウェア、ハードウェア、サービス…</li>
+            <li>まだまだ発展途上な面もあるが、<br>この流れが逆転することはない</li>
+            <li>アニメに限らずコンテンツのAPI化というのは、<br>広く取り組まれるべきテーマ</li>
+          </ul>
+        </section>
+        <section>
+          <h2>ハッカブルであることの楽しさ</h2>
+          <ul>
+
+            <li>異なるモノ同士がオーディエンスの手によって接続され、<br>そこから価値が生まれる時代</li>
+            <li>「組み合わせは無限大！」っていうアレ。<br>ハッカブルであることは、Customizableとも言える</li>
+            <li>ハッカブルでないコンテンツは、<br>相対的に価値が下がっていくのではないか。<br>
+              （「完成品」が持つ魅力が失われる訳ではないけれど、相対的に）</li>
+          </ul>
+        </section>
+        <section>
+          <h2>各ハックとテクノロジーとの<br>親和性・展望</h2>
+          <ul>
+            <li>内部ハック<br>プロモーションやアトラクションでの採用が進みそう。</li>
+            <li>外部ハック<br>現行の技術でも提供可能なサービスは多い。<br>誰がビジネスにするか。</li>
+            <li>参加型ハック<br>アナログな部分が大きく、未知数。</li>
+            <li>API・素材提供型ハック<br>一番ポテンシャルがある。コンテンツホルダーの頑張り次第。</li>
+          </ul>
+        </section>
+        <section>
+          <h2>アニメコンテンツのAPI化、<br>誰か偉い人が、音頭を取って<br>やってくれないかなぁ…（願望）</h2>
+        </section>
+        <section>
+          <h2>アニ◯イトさんとか…</h2>
+        </section>
+        <section>
+          <h2>メディア芸術データベースのことを<br>思い出す</h2>
+          <p>API連携とか書いてる！すごい</p>
+          <p>でもちょっと期待しているレイヤーと違う気がします</p>
+          <p>新作が反映されるのにも時間がかかる様子<br>（てか更新止まってる？）</p>
+          <p>https://mediaarts-db.jp/an/</p>
+        </section>
+        <section>
+          <h2>そんなこんなで</h2>
+        </section>
+        <section>
+          <h2>声優APIを作り始めました</h2>
+          <p>こうご期待</p>
+        </section>
+        <section>
+          <h2>ご清聴ありがとうございました</h2>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        width:1200,
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          {src: 'lib/js/classList.js', condition: function () {
+              return !document.body.classList;
+            }},
+          {src: 'plugin/markdown/marked.js', condition: function () {
+              return !!document.querySelector('[data-markdown]');
+            }},
+          {src: 'plugin/markdown/markdown.js', condition: function () {
+              return !!document.querySelector('[data-markdown]');
+            }},
+          {src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+              hljs.initHighlightingOnLoad();
+            }},
+          {src: 'plugin/zoom-js/zoom.js', async: true},
+          {src: 'plugin/notes/notes.js', async: true}
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
